@@ -1,0 +1,18 @@
+- hosts: localhost
+  become: yes
+  become_user: root
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+    - debug: msg="Ansible running in {{ansible_lsb.id}}!"
+    - name: Upgrade apt
+      become: true
+      apt:
+        upgrade: yes
+    - name: Install packages
+      become: yes
+      apt:
+        pkg:
+          - ntfs-3g
+          - samba
+          - samba-common-bin
