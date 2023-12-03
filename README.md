@@ -18,6 +18,6 @@ Ansible scripts to setup home NAS on Raspberry Pi
 
 ## On a fresh machine without controller node
 - Clone this repo
-- Run the playbook ansible-root.yml file
-
-
+- Replace your hosts in the hosts.ini file
+- Run the playbook rpi-playbook.yml file as follows
+    - `ansible-playbook rpi-playbook.yml -i hosts.ini`

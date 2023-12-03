@@ -1,0 +1,50 @@
+- name: Samba Playbook
+  hosts: pis
+  user: pi
+  become: yes
+  become_user: root
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+    - name: Install packages
+      become: yes
+      apt:
+        pkg:
+          - samba
+          - samba-common-bin
+    - name: Create share user
+      user:
+        name: j3dshareuser
+        home: /home/j3dshareuser
+        groups:
+          - users
+    - name: Create samba shares
+      blockinfile:
+        path: /etc/samba/smb.conf
+        block: |
+          server min protocol = SMB3
+          map to guest = never
+          security = user
+          ntlm auth = true
+          [usbseagate1tbshare]
+          comment = primary share
+          path = /mnt/primary-exthdd
+          create mask = 0660
+          directory mask = 0771
+          read only = no
+          browsable = yes
+          guest ok = no
+          
+          [backup]
+          path = /mnt/backup-exthdd
+          comment = readonly backup share
+          create mask = 0660
+          directory mask = 0771
+          read only = yes
+          browsable = yes
+          guest ok = no
+
+    - name: Restart Samba
+      ansible.builtin.service:
+        name: smbd
+        state: restarted

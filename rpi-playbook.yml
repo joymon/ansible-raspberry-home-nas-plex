@@ -1,0 +1,5 @@
+# code: language=ansible
+- name: NAS
+  import_playbook: nas-playbook.yml 
+- name: Samba
+  import_playbook: samba-playbook.yml

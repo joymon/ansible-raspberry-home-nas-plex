@@ -1,0 +1,38 @@
+- name: NAS Playbook
+  hosts: pis
+  user: pi
+  become: yes
+  become_user: root
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+    - debug: msg="Ansible running in {{ansible_lsb.id}}!"
+    - name: Upgrade apt
+      become: true
+      apt:
+        upgrade: yes
+    - name: Install packages
+      become: yes
+      apt:
+        pkg:
+          - ntfs-3g
+    - name: Create Primary Mount Points
+      file:
+        path: /mnt/primary-exthdd
+        state: directory
+    - name: Create Secondary Mount Points
+      file:
+        path: /mnt/backup-exthdd
+        state: directory
+    - name: Mount Primary
+      ansible.posix.mount:
+        path: /mnt/primary-exthdd
+        src: LABEL=j3dsgprimary
+        state: mounted
+        fstype: ntfs
+    - name: Mount secondary
+      ansible.posix.mount:
+        path: /mnt/backup-exthdd
+        src: LABEL=j3dwdsecondary
+        state: mounted
+        fstype: ntfs
