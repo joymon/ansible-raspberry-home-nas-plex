@@ -1,0 +1,4 @@
+email:
+  from: <your from email for sending rsync report>
+  fullname: "The name of user who sends rsync report"
+  to: <your mail to receive rsync reports>

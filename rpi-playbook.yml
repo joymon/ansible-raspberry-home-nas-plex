@@ -1,4 +1,17 @@
 # code: language=ansible
+- name: Machine-Level
+  hosts: pis
+  user: pi
+  become: yes
+  become_user: root
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+    - debug: msg="Ansible running in {{ansible_lsb.id}}!"
+    - name: Upgrade apt
+      become: true
+      apt:
+        upgrade: yes
 - name: NAS
   import_playbook: nas-playbook.yml 
 - name: Samba

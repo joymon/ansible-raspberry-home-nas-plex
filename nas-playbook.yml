@@ -6,11 +6,6 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
   tasks:
-    - debug: msg="Ansible running in {{ansible_lsb.id}}!"
-    - name: Upgrade apt
-      become: true
-      apt:
-        upgrade: yes
     - name: Install packages
       become: yes
       apt:
@@ -36,3 +31,17 @@
         src: LABEL=j3dwdsecondary
         state: mounted
         fstype: ntfs
+    - name: Copy nas-rsync file
+      copy:
+        src: ./files/nas-rsync.sh
+        dest: /usr/local/bin/nas-rsync.sh
+        mode: '544'
+    - name: Setup cron job to sync HDDs everyday 1 AM local time
+      ansible.builtin.cron:
+        name: j3d-rsync-job
+        minute: "0"
+        hour: "1"
+        job: "/usr/local/bin/nas-rsync.sh"
+        state: present
+- name: Setup emailing rsync report
+  import_playbook: nas-email.yml

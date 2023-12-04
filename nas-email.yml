@@ -1,0 +1,32 @@
+- name: Send email
+  hosts: pis
+  user: pi
+  become: yes
+  become_user: root
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  vars_prompt:
+        - name: email_password
+          prompt: Enter email sender password
+  tasks:
+    - name: Install packages
+      become: yes
+      apt:
+        pkg:
+          - msmtp
+          - ca-certificates
+    - name: Push the msmtp config file
+      template:
+        src: ./files/msmtprc.j2
+        dest: /etc/msmtprc
+    - name: Replace email password from prompt
+      lineinfile:
+        path: /etc/msmtprc
+        regexp: '^password'
+        line: password {{email_password}}
+        state: present
+    - name: Copy nas rsync email file
+      template:
+        src: ./files/nas-rsync-email.sh.j2
+        dest: /usr/local/bin/nas-rsync-email.sh
+        mode: '544'
