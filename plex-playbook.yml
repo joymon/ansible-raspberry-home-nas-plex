@@ -1,0 +1,28 @@
+- name: Plex installation
+  hosts: pis
+  user: pi
+  become: yes
+  become_user: root
+  tasks:
+    - name: Install packages
+      become: yes
+      apt:
+        pkg: apt-transport-https
+    - name: Add plex key
+      become: yes
+      apt_key:
+        url: https://downloads.plex.tv/plex-keys/PlexSign.key
+        state: present
+    - name : Add plex repo to apt sources
+      copy:
+        dest: /etc/apt/sources.list.d/plexmediaserver.list
+        content: |
+          deb https://downloads.plex.tv/repo/deb public main
+    - name: Install packages
+      become: yes
+      apt:
+        pkg: plexmediaserver
+        update_cache: yes
+
+
+

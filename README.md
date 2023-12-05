@@ -1,23 +1,48 @@
-# raspberry-ansible-home-nas
+# Ansible - Configure Raspberry Pi 4 as home NAS with Plex
 Ansible scripts to setup home NAS on Raspberry Pi
-# Prerequisites
+- Require primary and secondary drives to backup every day 1 AM local time
+- Require an email address credentials to send daily backup status
 
-## On a fresh machine after image is deployed
+# Running
+s
+## On a fresh machine without controller node
+- Install Ansible (Check tested versions below)
+- Clone this repo
+- Replace your hosts in the hosts.ini file (localhost)
+- Run the playbook rpi-playbook.yml file as follows
+    - `ansible-playbook rpi-playbook.yml -i hosts.ini -e "email_password=<YOUR FROM EMAIL PASS>`
+
+# Running from controller node to setup remote RasPi
+
+## Prerequisites
+
+### On a fresh RasPi after image is deployed
 - Enable SSH in Raspberry
-- Copy the public key from above created SSH key pair
 
-## On the controller machine
-- Make sure Ansible is installed.
+### On the controller machine (Usually named as [jump box](https://en.wikipedia.org/wiki/Jump_server))
+- Install Ansible (Check tested versions below)
 - Create SSH Pair.
 - Start the ssh-agent service
     - `Set-Service ssh-agent -StartupType Automatic`
-- ssh-add    
+- Add private key to ssh agent
+    - `ssh-add `
+- Copy the public key from above created SSH key pair to remote RasPi
+    - `ssh-copy-id pi@raspberry` (make sure the user and hostname is correct)
+- Install Ansible (Check tested versions below)
 
-
-# Running
-
-## On a fresh machine without controller node
+## Running (on the controller machine)
 - Clone this repo
-- Replace your hosts in the hosts.ini file
+- Replace your hosts in the hosts.ini file (localhost)
 - Run the playbook rpi-playbook.yml file as follows
-    - `ansible-playbook rpi-playbook.yml -i hosts.ini`
+    - `ansible-playbook rpi-playbook.yml -i hosts.ini -e "email_password=<YOUR FROM EMAIL PASS>`
+
+# Versions tested
+
+Though mostly it works in other environments, please note that the scripts are tested only in below setup.
+
+- Raspberry 4 Model B (4 GB)
+- Raspberry Pi OS Lite
+  - 64 bit
+  - bookworm
+- Ansible Core 2.16.0
+- Python 3.10.12

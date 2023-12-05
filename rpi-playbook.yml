@@ -16,3 +16,5 @@
   import_playbook: nas-playbook.yml 
 - name: Samba
   import_playbook: samba-playbook.yml
+- name: Plex
+  import_playbook: plex-playbook.yml
