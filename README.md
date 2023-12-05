@@ -3,8 +3,8 @@ Ansible scripts to setup home NAS on Raspberry Pi
 - Require primary and secondary drives to backup every day 1 AM local time
 - Require an email address credentials to send daily backup status
 
-# Running
-s
+# Running directly on RasPi
+
 ## On a fresh machine without controller node
 - Install Ansible (Check tested versions below)
 - Clone this repo
