@@ -1,12 +1,12 @@
 account default
-host smtp.gmail.com
-port 587
+host {{email.smtp.host}}
+port {{email.smtp.port}}
 logfile /var/log/msmtp.log
 tls on
 tls_starttls on
 tls_trust_file /etc/ssl/certs/ca-certificates.crt
 
 auth login
-user {{email.from}}
+user {{email.from.address}}
 password 
-from {{email.fullname}}
+from {{email.from.fullname}}

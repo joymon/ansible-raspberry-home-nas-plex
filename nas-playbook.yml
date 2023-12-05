@@ -22,13 +22,13 @@
     - name: Mount Primary
       ansible.posix.mount:
         path: /mnt/primary-exthdd
-        src: LABEL=j3dsgprimary
+        src: LABEL={{nas.primary_drive_label}}
         state: mounted
         fstype: ntfs
     - name: Mount secondary
       ansible.posix.mount:
         path: /mnt/backup-exthdd
-        src: LABEL=j3dwdsecondary
+        src: LABEL={{nas.backup_drive_label}}
         state: mounted
         fstype: ntfs
     - name: Copy nas-rsync file
@@ -38,7 +38,7 @@
         mode: '544'
     - name: Setup cron job to sync HDDs everyday 1 AM local time
       ansible.builtin.cron:
-        name: j3d-rsync-job
+        name: rsync-job
         minute: "0"
         hour: "1"
         job: "/usr/local/bin/nas-rsync.sh"

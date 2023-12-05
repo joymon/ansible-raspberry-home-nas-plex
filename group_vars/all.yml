@@ -1,4 +1,16 @@
 email:
-  from: <your from email for sending rsync report>
-  fullname: "The name of user who sends rsync report"
-  to: <your mail to receive rsync reports>
+  from: 
+    address: <Notifier Id>@<YOUR DOMAIN>
+    fullname: <Notifier Name>
+    subject_prefix: <Your Subject prefix for notification mail>
+  smtp:
+    host: smtp.gmail.com
+    port: 587
+  to: <one receipient mail address>
+nas:
+  primary_drive_label: <primary drive label to mount>
+  backup_drive_label: <secondary drive label to mount>
+  samba:
+    user: <shareuser>
+    share:
+      name: <share name>

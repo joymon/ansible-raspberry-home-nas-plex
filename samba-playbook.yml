@@ -14,8 +14,8 @@
           - samba-common-bin
     - name: Create share user
       user:
-        name: j3dshareuser
-        home: /home/j3dshareuser
+        name: "{{nas.samba.user}}"
+        home: /home/{{nas.samba.user}}
         groups:
           - users
     - name: Create samba shares
@@ -26,7 +26,7 @@
           map to guest = never
           security = user
           ntlm auth = true
-          [usbseagate1tbshare]
+          [{{nas.samba.share.name}}]
           comment = primary share
           path = /mnt/primary-exthdd
           create mask = 0660

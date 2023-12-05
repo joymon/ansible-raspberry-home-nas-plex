@@ -19,7 +19,7 @@
       template:
         src: ./files/msmtprc.j2
         dest: /etc/msmtprc
-    - name: Replace email password from prompt
+    - name: Replace email password
       lineinfile:
         path: /etc/msmtprc
         regexp: '^password'

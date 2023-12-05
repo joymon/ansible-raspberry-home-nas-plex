@@ -1,6 +1,6 @@
 #!/bin/bash
 # Push the email subject and modified file list to the status file
-echo "Subject: J3D NAS Sync Status $(date +%F)" > "/var/log/j3dnas/$(date +%F)/status.txt"
+echo -e "Subject: {{email.from.subject_prefix}} $(date +%F)\n" > "/var/log/j3dnas/$(date +%F)/status.txt"
 grep "$(date +%Y/%m/%d)\|deleting" /var/log/j3dnas/$(date +%F)/*.log >> "/var/log/j3dnas/$(date +%F)/status.txt"
 
 # Send mail
