@@ -25,7 +25,7 @@
         src: LABEL={{nas.primary_drive_label}}
         state: mounted
         fstype: ntfs
-    - name: Mount secondary
+    - name: Mount backup
       ansible.posix.mount:
         path: /mnt/backup-exthdd
         src: LABEL={{nas.backup_drive_label}}
@@ -44,4 +44,4 @@
         job: "/usr/local/bin/nas-rsync.sh"
         state: present
 - name: Setup emailing rsync report
-  import_playbook: nas-email.yml
+  import_playbook: nas-email-playbook.yml

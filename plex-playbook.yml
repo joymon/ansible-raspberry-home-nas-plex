@@ -4,7 +4,7 @@
   become: yes
   become_user: root
   tasks:
-    - name: Install packages
+    - name: Enable https for package sources
       become: yes
       apt:
         pkg: apt-transport-https
