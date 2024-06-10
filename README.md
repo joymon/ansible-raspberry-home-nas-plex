@@ -53,4 +53,16 @@ Though mostly it works in other environments, please note that the scripts are t
   - 64 bit
   - bookworm
 - Ansible Core 2.16.0
+<<<<<<< HEAD
 - Python 3.10.12
+=======
+- Python 3.10.12
+
+# References
+- https://github.com/mkuthan/raspberry-ansible/tree/master
+- https://github.com/glennklockwood/rpi-ansible/blob/master/host_vars/blackhall.yml
+- https://github.com/notfoundsam/raspberry-plex-ansible
+- https://thepi.io/how-to-set-up-a-raspberry-pi-plex-server/
+- https://elvisciotti.medium.com/install-and-configure-a-raspberry-in-seconds-with-ansible-scrips-a0639ef38e1b
+- https://github.com/HankB/Ansible
+>>>>>>> c107caf67427b53b6d546a9e25bebcc419cf94fb
