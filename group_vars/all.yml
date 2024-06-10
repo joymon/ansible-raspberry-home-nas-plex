@@ -1,16 +1,16 @@
 email:
   from: 
-    address: j3dfamilydnr@gmail.com
-    fullname: J3D Family DnR
-    subject_prefix: J3D NAS Sync Status
+    address: <Notifier Id>@<YOUR DOMAIN>
+    fullname: <Notifier Name>
+    subject_prefix: <Your Subject prefix for notification mail>
   smtp:
     host: smtp.gmail.com
     port: 587
-  to: joymon@gmail.com
+  to: <one receipient mail address>
 nas:
-  primary_drive_label: j3dsgprimary  
-  backup_drive_label: j3dsgbackup
+  primary_drive_label: <primary drive label to mount>  
+  backup_drive_label: <secondary drive label to mount>
   samba:
-    user: j3dshareuser
+    user: <shareuser>
     share:
-      name: usbseagate1tbshare
+      name: <share name>
