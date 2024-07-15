@@ -22,15 +22,15 @@
     - name: Mount Primary
       ansible.posix.mount:
         path: /mnt/primary-exthdd
-        src: LABEL={{nas.primary_drive_label}}
+        src: LABEL={{nas.primary_drive.label}}
         state: mounted
-        fstype: ntfs
+        fstype: "{{nas.primary_drive.fstype}}"
     - name: Mount backup
       ansible.posix.mount:
         path: /mnt/backup-exthdd
-        src: LABEL={{nas.backup_drive_label}}
+        src: LABEL={{nas.backup_drive.label}}
         state: mounted
-        fstype: ntfs
+        fstype: "{{nas.backup_drive.fstype}}"
     - name: Copy nas-rsync file
       copy:
         src: ./files/nas-rsync.sh

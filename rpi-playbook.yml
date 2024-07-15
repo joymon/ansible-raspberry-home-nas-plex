@@ -9,6 +9,7 @@
   tasks:
     - debug: msg="Ansible running in {{ansible_lsb.id}}!"
     - name: Upgrade apt
+      when: common.run_apt_upgrade
       become: true
       apt:
         upgrade: yes

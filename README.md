@@ -37,6 +37,10 @@ We need to setup both the controller and RasPi.
 - Copy the public key from above created SSH key pair to remote RasPi
     - `ssh-copy-id pi@raspberry` (make sure the user and hostname is correct)
 - Install Ansible (Check tested versions below)
+- Additional modules
+  - List the modules `ansible-galaxy collection list`
+- If the above command is not showing `ansible.posix` install using below command. This is needed for mounting
+  - `ansible-galaxy collection install ansible.posix`
 
 ## Running (on the controller machine)
 - Clone this repo
