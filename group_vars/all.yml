@@ -8,9 +8,15 @@ email:
     port: 587
   to: <one receipient mail address>
 nas:
-  primary_drive_label: <primary drive label to mount>  
-  backup_drive_label: <secondary drive label to mount>
+  primary_drive:
+    label: <primary drive label to mount>  
+    fstype: <file system type values can be ext4/ntfs>
+  backup_drive:
+    label: <secondary drive label to mount>
+    fstype: <file system type values can be ext4/ntfs>
   samba:
     user: <shareuser>
     share:
       name: <share name>
+common:
+  run_apt_upgrade: true
