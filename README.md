@@ -1,72 +1,63 @@
-# Ansible - Configure Raspberry Pi 4 as home NAS with Plex
-Ansible scripts to setup home NAS on Raspberry Pi
-- Require primary and secondary drives to backup every day 1 AM local time
-- Require an email address credentials to send daily backup status
+# Ansible - Raspberry Pi 4 Home NAS with Plex
 
-# Files to replace
+Ansible playbooks to configure a Raspberry Pi as a home NAS with Plex. Syncs selected folders from primary to secondary drive daily at 1 AM and emails the backup status.
 
-- Replace your hosts in the hosts.ini file (localhost if running from same machine)
-- Adjust the `files/nas-rsync.sh` file with your folders to sync. This tool is not synching entire drive but selected folders.
-  - Make sure the above used folders are available in both the drives. 
-- Replace the drive labels in `group_vars/all.yml`
-  - Existing disks, drives and mount points can be seen using command `lsblk -o name,label,mountpoint,FSTYPE,size,FSUSE%,uuid`
+## Configuration
 
-# Running directly on RasPi - without controller node
+Before running, update these files:
 
-## Prerequisite - On a fresh RasPi after image is deployed
-- Install Ansible (Check tested versions below)
+- **`hosts.ini`** — set your target host (`localhost` if running on the Pi itself)
+- **`files/nas-rsync.sh`** — list the folders to sync (not a full-drive mirror; ensure folders exist on both drives)
+- **`group_vars/all.yml`** — set drive labels (use `lsblk -o name,label,mountpoint,FSTYPE,size,FSUSE%,uuid` to find them)
 
-## Running 
-- Clone this repo
-- Do the replacements in required files
-- Run the playbook rpi-playbook.yml file as follows
-    - `ansible-playbook rpi-playbook.yml -i hosts.ini -e "email_password=<YOUR FROM EMAIL PASS>"`
+## Usage
 
-# Running from controller node to setup remote RasPi
-We need to setup both the controller and RasPi.
-## Prerequisites - On a fresh RasPi after image is deployed
-- Enable SSH in Raspberry
+### Option A: Run directly on the Pi
 
-## Prerequisites - On the controller machine (Usually named as [jump box](https://en.wikipedia.org/wiki/Jump_server))
-- Install Ansible (Check tested versions below)
-- Create SSH Pair.
-- Start the ssh-agent service
-    - `Set-Service ssh-agent -StartupType Automatic`
-- Add private key to ssh agent
-    - `ssh-add `
-- Copy the public key from above created SSH key pair to remote RasPi
-    - `ssh-copy-id pi@raspberry` (make sure the user and hostname is correct)
-- Install Ansible (Check tested versions below)
-- Additional modules
-  - List the modules `ansible-galaxy collection list`
-- If the above command is not showing `ansible.posix` install using below command. This is needed for mounting
-  - `ansible-galaxy collection install ansible.posix`
+1. Install Ansible on the Pi
+2. Clone this repo
+3. Apply configuration changes above
+4. Run:
+   ```
+   ansible-playbook rpi-playbook.yml -i hosts.ini -e "email_password=<YOUR_EMAIL_PASS>"
+   ```
 
-## Running (on the controller machine)
-- Clone this repo
-- Do the replacements in required files
-- Run the playbook rpi-playbook.yml file as follows
-    - `ansible-playbook rpi-playbook.yml -i hosts.ini -e "email_password=<YOUR FROM EMAIL PASS>"`
+### Option B: Run from a controller machine (Linux or WSL)
 
-# Versions tested
+> Ansible does not run natively on Windows. Use a Linux machine or [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) as the controller.
 
-Though mostly it works in other environments, please note that the scripts are tested only in below setup.
+**On the Pi:** Enable SSH.
 
-- Raspberry 4 Model B (4 GB)
-- Raspberry Pi OS Lite
-  - 64 bit
-  - bookworm
+**On the controller (Linux / WSL):**
+1. Install Ansible
+2. Generate an SSH key pair, start the agent, and copy the public key to the Pi:
+   ```bash
+   ssh-keygen
+   eval "$(ssh-agent -s)"
+   ssh-add ~/.ssh/id_rsa
+   ssh-copy-id pi@raspberry
+   ```
+3. Install the `ansible.posix` collection if missing:
+   ```bash
+   ansible-galaxy collection install ansible.posix
+   ```
+4. Clone this repo, apply configuration changes, then run:
+   ```bash
+   ansible-playbook rpi-playbook.yml -i hosts.ini -e "email_password=<YOUR_EMAIL_PASS>"
+   ```
+
+## Tested With
+
+- Raspberry Pi 4 Model B (4 GB)
+- Raspberry Pi OS Lite 64-bit (Bookworm)
 - Ansible Core 2.16.0
-<<<<<<< HEAD
-- Python 3.10.12
-=======
 - Python 3.10.12
 
-# References
+## References
+
 - https://github.com/mkuthan/raspberry-ansible/tree/master
 - https://github.com/glennklockwood/rpi-ansible/blob/master/host_vars/blackhall.yml
 - https://github.com/notfoundsam/raspberry-plex-ansible
 - https://thepi.io/how-to-set-up-a-raspberry-pi-plex-server/
 - https://elvisciotti.medium.com/install-and-configure-a-raspberry-in-seconds-with-ansible-scrips-a0639ef38e1b
 - https://github.com/HankB/Ansible
->>>>>>> c107caf67427b53b6d546a9e25bebcc419cf94fb
