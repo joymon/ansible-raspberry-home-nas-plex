@@ -8,7 +8,9 @@ Before running, update these files:
 
 - **`hosts.ini`** — set your target host (`localhost` if running on the Pi itself)
 - **`files/nas-rsync.sh`** — list the folders to sync (not a full-drive mirror; ensure folders exist on both drives)
-- **`group_vars/all.yml`** — set drive labels (use `lsblk -o name,label,mountpoint,FSTYPE,size,FSUSE%,uuid` to find them)
+- **`group_vars/all.yml`** — set drive labels (use `lsblk -o name,label,mountpoint,FSTYPE,size,FSUSE%,uuid` to find them); optionally override Immich paths:
+  - `immich.upload_location` (default: `/media`)
+  - `immich.db_location` (default: `/media/databases/immich-postgres`)
 
 ## Usage
 
@@ -19,7 +21,7 @@ Before running, update these files:
 3. Apply configuration changes above
 4. Run:
    ```
-   ansible-playbook rpi-playbook.yml -i hosts.ini -e "email_password=<YOUR_EMAIL_PASS>"
+   ansible-playbook rpi-playbook.yml -i hosts.ini -e "email_password=<YOUR_EMAIL_PASS>" -e "immich_db_password=<YOUR_IMMICH_DB_PASS>"
    ```
 
 ### Option B: Run from a controller machine (Linux or WSL)
@@ -43,7 +45,7 @@ Before running, update these files:
    ```
 4. Clone this repo, apply configuration changes, then run:
    ```bash
-   ansible-playbook rpi-playbook.yml -i hosts.ini -e "email_password=<YOUR_EMAIL_PASS>"
+   ansible-playbook rpi-playbook.yml -i hosts.ini -e "email_password=<YOUR_EMAIL_PASS>" -e "immich_db_password=<YOUR_IMMICH_DB_PASS>"
    ```
 
 ## Tested With

@@ -1,0 +1,39 @@
+# code: language=ansible
+- name: Docker installation
+  hosts: pis
+  user: pi
+  become: yes
+  become_user: root
+  tasks:
+    - name: Install Docker prerequisites
+      apt:
+        pkg:
+          - ca-certificates
+          - curl
+          - gnupg
+        update_cache: yes
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/debian/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: "deb [arch={{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+        state: present
+
+    - name: Install Docker
+      apt:
+        pkg:
+          - "docker-ce={{ docker.version }}"
+          - "docker-ce-cli={{ docker.version }}"
+          - containerd.io
+          - docker-compose-plugin
+        update_cache: yes
+
+    - name: Enable and start Docker
+      systemd:
+        name: docker
+        enabled: yes
+        state: started

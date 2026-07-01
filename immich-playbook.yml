@@ -1,0 +1,43 @@
+# code: language=ansible
+- name: Immich installation
+  hosts: pis
+  user: pi
+  become: yes
+  become_user: root
+  vars:
+    immich_install_dir: /opt/immich
+  tasks:
+    - name: Create Immich install directory
+      file:
+        path: "{{ immich_install_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Create upload directory
+      file:
+        path: "{{ immich.upload_location }}"
+        state: directory
+        mode: '0755'
+
+    - name: Create database directory
+      file:
+        path: "{{ immich.db_location }}"
+        state: directory
+        mode: '0755'
+
+    - name: Download Immich docker-compose file
+      get_url:
+        url: https://github.com/immich-app/immich/releases/latest/download/docker-compose.yml
+        dest: "{{ immich_install_dir }}/docker-compose.yml"
+        mode: '0644'
+
+    - name: Template Immich environment file
+      template:
+        src: immich.env.j2
+        dest: "{{ immich_install_dir }}/.env"
+        mode: '0600'
+
+    - name: Start Immich services
+      command: docker compose up -d
+      args:
+        chdir: "{{ immich_install_dir }}"
