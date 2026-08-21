@@ -61,8 +61,8 @@ Some values its assuming such as the below. Code changes required to different v
 
 - Raspberry Pi 4 Model B (4 GB)
 - Raspberry Pi OS Lite 64-bit (Bookworm)
-- Ansible Core 2.16.0
-- Python 3.10.12
+- Ansible Core 2.21.3
+- Python 3.14.4
 
 ## References
 
