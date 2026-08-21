@@ -6,11 +6,25 @@ Ansible playbooks to configure a Raspberry Pi as a home NAS with Plex. Syncs sel
 
 Before running, update these files:
 
-- **`hosts.ini`** — set your target host (`localhost` if running on the Pi itself)
+- **`hosts.ini`** — set your target Raspi IP (`localhost` if running on the Pi itself)
 - **`files/nas-rsync.sh`** — list the folders to sync (not a full-drive mirror; ensure folders exist on both drives)
-- **`group_vars/all.yml`** — set drive labels (use `lsblk -o name,label,mountpoint,FSTYPE,size,FSUSE%,uuid` to find them); optionally override Immich paths:
-  - `immich.upload_location` (default: `/media`)
-  - `immich.db_location` (default: `/media/databases/immich-postgres`)
+- **`[group_vars/all.yml](./group_vars/all.yml)`**
+   - nas - details of your nas drives. primary and secondary disk labels
+      - to get drive labels `lsblk -o name,label,mountpoint,FSTYPE,size,FSUSE%,uuid` 
+   - email - details of from email and to everyday NAS sync status should be send.
+   - samba - details of samba use and share name. The user will be created. Password to set later.
+ 
+optionally override Immich paths:
+- `immich.upload_location` (default: `/media`)
+- `immich.db_location` (default: `/media/databases/immich-postgres`)
+
+Below are the values to replace in all.yml
+- 
+
+Some values its assuming such as the below. Code changes required to different value.
+- immich database location, immich media location
+- nas mount paths.
+
 
 ## Usage
 
@@ -43,19 +57,24 @@ Before running, update these files:
    ```bash
    ansible-galaxy collection install ansible.posix
    ```
-4. Clone this repo, update hosts.ini with Raspi IP. Update configuration changes in [all.yml](./group_vars/all.yml)
+4. Clone this repo, apply the configuration changes as mentioned above.
 5. Run:
    ```bash
    ansible-playbook rpi-playbook.yml -i hosts.ini -e "email_password=<YOUR_FROM_EMAIL_PASS>" -e "immich_db_password=<YOUR_IMMICH_DB_PASS>"
    ```
-Below are the values to replace in all.yml
-- email - details of from email and to everyday NAS sync status should be send.
-- nas - details of your nas drives. primary and secondary disk labels
-  - samba - details of samba use and share name. The user will be created. Password to set later.
+## How to test
 
-Some values its assuming such as the below. Code changes required to different value.
-- immich database location, immich media location
-- nas mount paths.
+### NAS
+- Connect to the share from controller machine
+- Try to send test mail using the `msmtp` command.
+
+### Plex
+- Browse below url from the controller machine
+ - https://<Raspberry IP/ machine name>>:32400/
+
+### Docker
+
+- Run the `docker --version` command after remote into the Raspi
 
 ## Tested With
 
