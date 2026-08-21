@@ -24,14 +24,14 @@ Before running, update these files:
    ansible-playbook rpi-playbook.yml -i hosts.ini -e "email_password=<YOUR_EMAIL_PASS>" -e "immich_db_password=<YOUR_IMMICH_DB_PASS>"
    ```
 
-### Option B: Run from a controller machine (Linux or WSL)
+### ✅ Option B: Run from a controller machine (Linux or WSL)
 
 > Ansible does not run natively on Windows. Use a Linux machine or [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) as the controller.
 
 **On the Pi:** Enable SSH.
 
 **On the controller (Linux / WSL):**
-1. Install Ansible
+1. Install Ansible. 
 2. Generate an SSH key pair, start the agent, and copy the public key to the Pi:
    ```bash
    ssh-keygen
@@ -43,10 +43,19 @@ Before running, update these files:
    ```bash
    ansible-galaxy collection install ansible.posix
    ```
-4. Clone this repo, apply configuration changes, then run:
+4. Clone this repo, update hosts.ini with Raspi IP. Update configuration changes in [all.yml](./group_vars/all.yml)
+5. Run:
    ```bash
-   ansible-playbook rpi-playbook.yml -i hosts.ini -e "email_password=<YOUR_EMAIL_PASS>" -e "immich_db_password=<YOUR_IMMICH_DB_PASS>"
+   ansible-playbook rpi-playbook.yml -i hosts.ini -e "email_password=<YOUR_FROM_EMAIL_PASS>" -e "immich_db_password=<YOUR_IMMICH_DB_PASS>"
    ```
+Below are the values to replace in all.yml
+- email - details of from email and to everyday NAS sync status should be send.
+- nas - details of your nas drives. primary and secondary disk labels
+  - samba - details of samba use and share name. The user will be created. Password to set later.
+
+Some values its assuming such as the below. Code changes required to different value.
+- immich database location, immich media location
+- nas mount paths.
 
 ## Tested With
 
