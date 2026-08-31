@@ -17,9 +17,9 @@
   import_playbook: nas-playbook.yml 
 - name: Samba
   import_playbook: samba-playbook.yml
+- name: NFS
+  import_playbook: nfs-playbook.yml
 - name: Plex
   import_playbook: plex-playbook.yml
 - name: Docker
   import_playbook: docker-playbook.yml
-# - name: Immich
-#   import_playbook: immich-playbook.yml

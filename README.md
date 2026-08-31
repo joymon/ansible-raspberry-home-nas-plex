@@ -13,6 +13,7 @@ Before running, update these files:
       - to get drive labels `lsblk -o name,label,mountpoint,FSTYPE,size,FSUSE%,uuid` 
    - email - details of from email and to everyday NAS sync status should be send.
    - samba - details of samba use and share name. The user will be created. Password to set later.
+   - nfs - allowed client network and share name. NFS clients mount `/mnt/primary-exthdd` directly.
  
 optionally override Immich paths:
 - `immich.upload_location` (default: `/media`)
@@ -66,6 +67,7 @@ Some values its assuming such as the below. Code changes required to different v
 
 ### NAS
 - Connect to the share from controller machine
+- Mount the NFS share with `mount -t nfs <Raspberry IP>:/mnt/primary-exthdd <local mount point>`
 - Try to send test mail using the `msmtp` command.
 
 ### Plex

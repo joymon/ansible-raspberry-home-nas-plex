@@ -1,0 +1,31 @@
+- name: NFS Playbook
+  hosts: pis
+  user: pi
+  become: yes
+  become_user: root
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+    - name: Install NFS server
+      ansible.builtin.apt:
+        name: nfs-kernel-server
+        state: present
+
+    - name: Configure NFS share
+      ansible.builtin.blockinfile:
+        path: /etc/exports
+        create: yes
+        marker: "# {mark} ANSIBLE MANAGED NFS SHARE {{ nas.nfs.share.name }}"
+        block: |
+          /mnt/primary-exthdd {{ nas.nfs.allowed_hosts }}(rw,sync,no_subtree_check)
+      notify: Reload NFS exports
+
+    - name: Enable and start NFS server
+      ansible.builtin.service:
+        name: nfs-kernel-server
+        enabled: yes
+        state: started
+
+  handlers:
+    - name: Reload NFS exports
+      ansible.builtin.command: exportfs -ra
