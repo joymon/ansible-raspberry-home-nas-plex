@@ -6,7 +6,7 @@ email:
   smtp:
     host: smtp.gmail.com
     port: 587
-  to: <one receipient mail address>
+  to: <one recipient email address>
 nas:
   primary_drive:
     label: <primary drive label to mount>  
@@ -18,11 +18,11 @@ nas:
     user: <shareuser>
     share:
       name: <share name>
+  nfs:
+    allowed_hosts: <allowed IP addresses>
+    share:
+      name: nas
 common:
   run_apt_upgrade: true
 docker:
   version: "27.0.0-1~debian-bookworm~bookworm"
-immich:
-  version: "v2.7.5"
-  upload_location: /media
-  db_location: /media/databases/immich-postgres
