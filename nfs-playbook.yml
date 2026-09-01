@@ -17,7 +17,7 @@
         create: yes
         marker: "# {mark} ANSIBLE MANAGED NFS SHARE {{ nas.nfs.share.name }}"
         block: |
-          /mnt/primary-exthdd {{ nas.nfs.allowed_hosts }}(rw,sync,no_subtree_check)
+          /mnt/primary-exthdd {{ nas.nfs.allowed_hosts }}(rw,sync,no_subtree_check,no_root_squash,insecure)
       notify: Reload NFS exports
 
     - name: Enable and start NFS server
