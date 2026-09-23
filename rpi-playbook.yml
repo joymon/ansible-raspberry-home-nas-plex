@@ -23,3 +23,5 @@
   import_playbook: docker-playbook.yml
 - name: Pi-hole
   import_playbook: pihole-playbook.yml
+- name: Node Exporter
+  import_playbook: node-exporter-playbook.yml

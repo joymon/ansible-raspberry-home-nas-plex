@@ -25,6 +25,13 @@ Set the Pi-hole web password when running the playbook with `pihole_web_password
 Some values its assuming such as the below. Code changes required to different value.
 - nas mount paths.
 
+Node Exporter is installed and enabled by the main playbook. It listens on its
+default port, `9100`, and exposes the default network-device metrics:
+
+```text
+http://<Raspberry IP>:9100/metrics
+```
+
 
 ## Usage
 
@@ -77,6 +84,12 @@ Some values its assuming such as the below. Code changes required to different v
 ### Docker
 
 - Run the `docker --version` command after remote into the Raspi
+
+### Node Exporter
+
+- Open `http://<Raspberry IP>:9100/metrics` from a monitoring host.
+- Confirm that network metrics such as `node_network_receive_bytes_total` and
+  `node_network_transmit_bytes_total` are present.
 
 ## Tested With
 
