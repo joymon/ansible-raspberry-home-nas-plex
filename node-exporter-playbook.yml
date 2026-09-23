@@ -1,0 +1,18 @@
+# code: language=ansible
+- name: Node Exporter installation
+  hosts: pis
+  user: pi
+  become: yes
+  become_user: root
+  tasks:
+    - name: Install Prometheus Node Exporter
+      ansible.builtin.apt:
+        name: prometheus-node-exporter
+        state: present
+        update_cache: yes
+
+    - name: Enable and start Prometheus Node Exporter
+      ansible.builtin.systemd:
+        name: prometheus-node-exporter
+        enabled: yes
+        state: started
