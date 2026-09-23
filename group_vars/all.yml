@@ -26,3 +26,8 @@ common:
   run_apt_upgrade: true
 docker:
   version: "27.0.0-1~debian-bookworm~bookworm"
+pihole:
+  version: latest
+  install_dir: /opt/pihole
+  timezone: Etc/UTC
+  web_port: 8080
