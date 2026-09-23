@@ -69,6 +69,16 @@ http://<Raspberry IP>:9100/metrics
    ```bash
    ansible-playbook rpi-playbook.yml -i hosts.ini -e "email_password=<YOUR_FROM_EMAIL_PASS>" -e "pihole_web_password=<YOUR_PIHOLE_WEB_PASS>"
    ```
+## Jumpbox controller (Windows + WSL) setup
+
+Uses SSH keys permanent setup in WSL machine
+- Login to the WSL shell
+- copy the id_rsa file to ~/.ssh/id_rsa
+   - `cp /mnt/c/path/to/id_rsa ~/.ssh/id_rsa`
+   - `chmod 600 ~/.ssh/id_rsa`
+- eval "$(ssh-agent -s)"
+- ssh-add ~/.ssh/id_rsa
+
 ## How to test
 
 ### NAS
