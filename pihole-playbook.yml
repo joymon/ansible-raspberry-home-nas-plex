@@ -1,0 +1,32 @@
+# code: language=ansible
+- name: Pi-hole installation
+  hosts: pis
+  user: pi
+  become: yes
+  become_user: root
+  tasks:
+    - name: Create Pi-hole install directory
+      ansible.builtin.file:
+        path: "{{ pihole.install_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Create Pi-hole data directories
+      ansible.builtin.file:
+        path: "{{ pihole.install_dir }}/{{ item }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - etc-pihole
+        - etc-dnsmasq.d
+
+    - name: Template Pi-hole Compose file
+      ansible.builtin.template:
+        src: pihole-compose.yml.j2
+        dest: "{{ pihole.install_dir }}/docker-compose.yml"
+        mode: '0644'
+
+    - name: Start Pi-hole
+      ansible.builtin.command: docker compose up -d
+      args:
+        chdir: "{{ pihole.install_dir }}"

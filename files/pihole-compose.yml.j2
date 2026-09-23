@@ -1,0 +1,16 @@
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:{{ pihole.version }}
+    restart: unless-stopped
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "{{ pihole.web_port }}:80/tcp"
+    environment:
+      TZ: {{ pihole.timezone }}
+      FTLCONF_webserver_api_password: {{ pihole_web_password | to_json }}
+      FTLCONF_dns_listeningMode: all
+    volumes:
+      - ./etc-pihole:/etc/pihole
+      - ./etc-dnsmasq.d:/etc/dnsmasq.d

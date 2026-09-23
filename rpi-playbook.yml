@@ -19,7 +19,7 @@
   import_playbook: samba-playbook.yml
 - name: NFS
   import_playbook: nfs-playbook.yml
-- name: Plex
-  import_playbook: plex-playbook.yml
 - name: Docker
   import_playbook: docker-playbook.yml
+- name: Pi-hole
+  import_playbook: pihole-playbook.yml

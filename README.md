@@ -1,6 +1,6 @@
-# Ansible - Raspberry Pi 4 Home NAS with Plex
+# Ansible - Raspberry Pi 4 Home NAS with Pi-hole
 
-Ansible playbooks to configure a Raspberry Pi as a home NAS with Plex. Syncs selected folders from primary to secondary drive daily at 1 AM and emails the backup status.
+Ansible playbooks to configure a Raspberry Pi as a home NAS and Pi-hole DNS server. Selected folders are synced from the primary to the secondary drive daily at 1 AM and the backup status is emailed.
 
 ## Configuration
 
@@ -15,15 +15,14 @@ Before running, update these files:
    - samba - details of samba use and share name. The user will be created. Password to set later.
    - nfs - allowed client network and share name. NFS clients mount `/mnt/primary-exthdd` directly.
  
-optionally override Immich paths:
-- `immich.upload_location` (default: `/media`)
-- `immich.db_location` (default: `/media/databases/immich-postgres`)
+Pi-hole defaults are also in `group_vars/all.yml`:
+- `pihole.timezone` (default: `Etc/UTC`)
+- `pihole.web_port` (default: `8080`)
+- `pihole.install_dir` (default: `/opt/pihole`)
 
-Below are the values to replace in all.yml
-- 
+Set the Pi-hole web password when running the playbook with `pihole_web_password`. Do not commit the password to this repository.
 
 Some values its assuming such as the below. Code changes required to different value.
-- immich database location, immich media location
 - nas mount paths.
 
 
@@ -36,7 +35,7 @@ Some values its assuming such as the below. Code changes required to different v
 3. Apply configuration changes above
 4. Run:
    ```
-   ansible-playbook rpi-playbook.yml -i hosts.ini -e "email_password=<YOUR_EMAIL_PASS>" -e "immich_db_password=<YOUR_IMMICH_DB_PASS>"
+   ansible-playbook rpi-playbook.yml -i hosts.ini -e "email_password=<YOUR_EMAIL_PASS>" -e "pihole_web_password=<YOUR_PIHOLE_WEB_PASS>"
    ```
 
 ### ✅ Option B: Run from a controller machine (Linux or WSL)
@@ -61,7 +60,7 @@ Some values its assuming such as the below. Code changes required to different v
 4. Clone this repo, apply the configuration changes as mentioned above.
 5. Run:
    ```bash
-   ansible-playbook rpi-playbook.yml -i hosts.ini -e "email_password=<YOUR_FROM_EMAIL_PASS>" -e "immich_db_password=<YOUR_IMMICH_DB_PASS>"
+   ansible-playbook rpi-playbook.yml -i hosts.ini -e "email_password=<YOUR_FROM_EMAIL_PASS>" -e "pihole_web_password=<YOUR_PIHOLE_WEB_PASS>"
    ```
 ## How to test
 
@@ -70,9 +69,10 @@ Some values its assuming such as the below. Code changes required to different v
 - Mount the NFS share with `mount -t nfs <Raspberry IP>:/mnt/primary-exthdd <local mount point>`
 - Try to send test mail using the `msmtp` command.
 
-### Plex
-- Browse below url from the controller machine
- - https://<Raspberry IP/ machine name>>:32400/
+### Pi-hole
+- Open `http://<Raspberry IP>:8080/admin/` and sign in with the password supplied to Ansible.
+- Configure your router or individual clients to use `<Raspberry IP>` as their DNS server.
+- Confirm DNS resolution and ad blocking from a connected client.
 
 ### Docker
 
@@ -89,7 +89,5 @@ Some values its assuming such as the below. Code changes required to different v
 
 - https://github.com/mkuthan/raspberry-ansible/tree/master
 - https://github.com/glennklockwood/rpi-ansible/blob/master/host_vars/blackhall.yml
-- https://github.com/notfoundsam/raspberry-plex-ansible
-- https://thepi.io/how-to-set-up-a-raspberry-pi-plex-server/
 - https://elvisciotti.medium.com/install-and-configure-a-raspberry-in-seconds-with-ansible-scrips-a0639ef38e1b
 - https://github.com/HankB/Ansible
