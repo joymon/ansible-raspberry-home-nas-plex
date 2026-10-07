@@ -92,10 +92,10 @@ Edit these files before running. **Do not commit real IPs, email addresses or pa
 
 ```ini
 [pis]
-192.168.1.50
+aaa.bbb.ccc.ddd
 ```
 
-Use the Pi's IP address. If you run Ansible **on the Pi itself**, use:
+Replace `aaa.bbb.ccc.ddd` with the Pi's IP address. If you run Ansible **on the Pi itself**, use:
 
 ```ini
 [pis]
@@ -117,7 +117,7 @@ localhost ansible_connection=local
 | `nas.backup_drive.fstype` | `ext4` or `ntfs` | `ext4` |
 | `nas.samba.user` | Linux + Samba user created for the shares | `shareuser` |
 | `nas.samba.share.name` | Name of the read/write Samba share | `nas` |
-| `nas.nfs.allowed_hosts` | Client IP / CIDR allowed to mount via NFS | `192.168.1.0/24` |
+| `nas.nfs.allowed_hosts` | Client IP / CIDR allowed to mount via NFS | `aaa.bbb.ccc.0/24` (your LAN subnet) |
 | `nas.nfs.share.name` | Only used as the marker in `/etc/exports` | `nas` |
 | `pihole.version` | Pi-hole Docker image tag | `2026.09.0` |
 | `pihole.install_dir` | Where the compose file and Pi-hole data live | `/opt/pihole` |
